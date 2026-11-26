@@ -48,7 +48,6 @@ footer { display: flex; justify-content: center; padding: 0 5vw 32px; font-size:
 <body>
 <div class="page">
   <video class="film" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-hidden="true">
-    <source src="assets/film.webm" type="video/webm">
     <source src="assets/film.mp4" type="video/mp4">
   </video>
   <img class="poster" src="assets/poster.jpg" alt="">
@@ -61,8 +60,8 @@ footer { display: flex; justify-content: center; padding: 0 5vw 32px; font-size:
 
   <main>
     <h1>Something’s stirring.</h1>
-    <!-- SIGN-UP: data-endpoint is the address of the mailing-list form. While it is empty, nothing is collected and the page says so. -->
-    <form id="signup" data-endpoint="" novalidate>
+    <!-- SIGN-UP: data-endpoint is the Brevo form "Ultimade launch waiting list". -->
+    <form id="signup" data-endpoint="https://c1ad27f2.sibforms.com/v2/serve/MUIFAB9iO_36lN7Mp69ah4kY84KP2yeqs9QfRbnk_2fAo-F3tEQ9C5PTEXYSpOuHjUuW0EyrQrAI4oRArDOkufLo4Eyemrt8l-wEmoM3uUVqLwXQwjO7GQQG7qk9WEi-lZH-EmI4WVud3dBp0mzrTY8Kfd1bnPfpCg8vVAW1aK4Fb9U-PVrzlvPhgFAFiaG2TH5UU-XIodFRRJ3XPQ==" novalidate>
       <label class="sr" for="email">Email address</label>
       <input id="email" name="email" type="email" autocomplete="email" placeholder="Your email address" required>
       <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -90,8 +89,9 @@ footer { display: flex; justify-content: center; padding: 0 5vw 32px; font-size:
     data.append('EMAIL', email.value);
     data.append('email_address_check', '');
     data.append('locale', 'en');
-    fetch(endpoint, { method: 'POST', mode: 'no-cors', body: data })
-      .then(function () { form.reset(); msg.textContent = 'Thank you. Please check your inbox to confirm.'; })
+    fetch(endpoint + '?isAjax=1', { method: 'POST', body: data })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!j || !j.success) { throw new Error('failed'); } form.reset(); msg.textContent = 'Thank you. You’ll be the first to know.'; })
       .catch(function () { msg.textContent = 'That didn’t go through. Please try again in a moment.'; });
   });
 })();

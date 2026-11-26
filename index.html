@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ultimade · Coming soon</title>
+<meta name="description" content="Something’s stirring. Ultimade is coming soon.">
+<meta property="og:title" content="Ultimade · Coming soon">
+<meta property="og:description" content="Something’s stirring.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/share.jpg">
+<meta name="theme-color" content="#0B0B08">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preload" href="assets/cormorant-500-italic.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 500; font-display: swap; src: url("assets/cormorant-500-italic.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/inter-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: swap; src: url("assets/inter-600.woff2") format("woff2"); }
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0B0B08; }
+body { color: #F4EFE6; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.page { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
+.film, .poster, .scrim { position: absolute; inset: 0; width: 100%; height: 100%; }
+.film, .poster { object-fit: cover; }
+.poster { display: none; }
+.scrim { background: rgba(11, 11, 8, 0.34); }
+header, main, footer { position: relative; }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding: 36px 5vw 0; }
+.logo { height: 48px; width: auto; display: block; }
+.soon { font-size: 12px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+main { flex-grow: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 26px; padding: 64px 5vw 40px; }
+h1 { margin: 0; font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif; font-weight: 500; font-style: italic; font-size: clamp(44px, 6vw, 96px); line-height: 1; letter-spacing: -0.005em; text-wrap: balance; }
+form { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; max-width: 480px; margin: 4px 0 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+input[type="email"] { flex: 1 1 220px; min-width: 0; height: 52px; padding: 0 18px; font: inherit; font-size: 16px; color: #F4EFE6; background: rgba(11, 11, 8, 0.55); border: 1px solid #F4EFE6; border-radius: 2px; }
+input[type="email"]::placeholder { color: #D9D2C5; }
+button { flex: 0 0 auto; height: 52px; padding: 0 26px; font: inherit; font-size: 15px; font-weight: 600; color: #0B0B08; background: #F4EFE6; border: 0; border-radius: 2px; cursor: pointer; }
+button:hover { background: #FFFFFF; }
+input:focus-visible, button:focus-visible { outline: 2px solid #E4C891; outline-offset: 3px; }
+.hp { position: absolute; left: -9999px; }
+.fine { margin: -14px 0 0; max-width: 480px; font-size: 12px; line-height: 1.5; color: #E9E3D6; }
+.msg { min-height: 20px; margin: 0; font-size: 14px; line-height: 1.4; color: #F4EFE6; }
+footer { display: flex; justify-content: center; padding: 0 5vw 32px; font-size: 13px; color: #E9E3D6; text-align: center; }
+@media (max-width: 560px) { header { padding-top: 28px; } .logo { height: 38px; } main { padding-bottom: 32px; } button { flex: 1 1 100%; } }
+@media (prefers-reduced-motion: reduce) { .film { display: none; } .poster { display: block; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <video class="film" autoplay muted loop playsinline preload="auto" poster="assets/poster.jpg" aria-hidden="true">
+    <source src="assets/film.webm" type="video/webm">
+    <source src="assets/film.mp4" type="video/mp4">
+  </video>
+  <img class="poster" src="assets/poster.jpg" alt="">
+  <div class="scrim" aria-hidden="true"></div>
+
+  <header>
+    <img class="logo" src="assets/logo-white.svg" alt="Ultimade" width="829" height="268">
+    <div class="soon">Coming soon</div>
+  </header>
+
+  <main>
+    <h1>Something’s stirring.</h1>
+    <!-- SIGN-UP: data-endpoint is the address of the mailing-list form. While it is empty, nothing is collected and the page says so. -->
+    <form id="signup" data-endpoint="" novalidate>
+      <label class="sr" for="email">Email address</label>
+      <input id="email" name="email" type="email" autocomplete="email" placeholder="Your email address" required>
+      <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">Be the first to know</button>
+    </form>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    <p class="fine">We only use your email to tell you when Ultimade launches. You can unsubscribe at any time.</p>
+  </main>
+
+  <footer>© 2026 Ultimade</footer>
+</div>
+<script>
+(function () {
+  var film = document.querySelector('.film');
+  if (film) { film.muted = true; var p = film.play(); if (p && p.catch) { p.catch(function () {}); } }
+  var form = document.getElementById('signup'), msg = document.getElementById('msg'), email = document.getElementById('email');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (form.company.value) { return; }
+    if (!email.value || !email.checkValidity()) { msg.textContent = 'Please enter a valid email address.'; email.focus(); return; }
+    var endpoint = form.getAttribute('data-endpoint');
+    if (!endpoint) { msg.textContent = 'Sign-up is not open yet. Please come back soon.'; return; }
+    msg.textContent = 'One moment…';
+    var data = new FormData();
+    data.append('EMAIL', email.value);
+    data.append('email_address_check', '');
+    data.append('locale', 'en');
+    fetch(endpoint, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function () { form.reset(); msg.textContent = 'Thank you. Please check your inbox to confirm.'; })
+      .catch(function () { msg.textContent = 'That didn’t go through. Please try again in a moment.'; });
+  });
+})();
+</script>
+</body>
+</html>
